@@ -18,7 +18,7 @@ sudo chown -R prometheus:prometheus /etc/prometheus/  /var/lib/prometheus/
 sudo chmod -R 775 /etc/prometheus/ /var/lib/prometheus/
 echo "---------- Configure o serviço Systemd ----------"
 
-sudo echo "
+sudo tee /etc/systemd/system/prometheus.service <<EOF
 [Unit]
 Description=Prometheus
 Wants=network-online.target
@@ -37,7 +37,8 @@ ExecStart=/usr/local/bin/prometheus \
     --web.listen-address=0.0.0.0:9090
 
 [Install]
-WantedBy=multi-user.target" > /etc/systemd/system/prometheus.service
+WantedBy=multi-user.target"
+EOF
 
 sudo systemctl start prometheus
 sudo systemctl enable prometheus
@@ -56,3 +57,29 @@ sudo apt install grafana
 sudo systemctl daemon-reload
 sudo systemctl enable grafana-server
 sudo systemctl start grafana-server
+
+sleep 5
+
+echo "---------- Instalando o Node Exporter ----------"
+cd /opt/
+sudo wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
+sudo tar -xvf node_exporter*.tar.gz
+cd  node_exporter*
+sudo cp node_exporter /usr/local/bin
+sudo tee /etc/systemd/system/node_exporter.service <<EOF
+[Unit]
+Description=Node Exporter
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=prometheus
+ExecStart=/usr/local/bin/node_exporter
+
+[Install]
+WantedBy=default.target
+EOF
+sudo systemctl daemon-reload
+sudo systemctl start node_exporter
+sudo systemctl enable node_exporter
+sudo systemctl status node_exporter
