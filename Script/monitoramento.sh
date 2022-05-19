@@ -83,3 +83,9 @@ sudo systemctl daemon-reload
 sudo systemctl start node_exporter
 sudo systemctl enable node_exporter
 sudo systemctl status node_exporter
+
+sudo echo "  - job_name: 'node_exporter'
+    static_configs:
+      - targets: ['localhost:9100']" >> /etc/prometheus/prometheus.yml
+
+sudo systemctl restart prometheus
