@@ -49,7 +49,7 @@ sleep 5
 echo "---------- Instalando o Grafana ----------"
 cd /opt/
 echo ""
-sudo apt install gnupg2
+sudo apt install gnupg2 -y
 sudo wget -q -O - https://packages.grafana.com/gpg.key | apt-key add -
 sudo echo "deb https://packages.grafana.com/oss/deb stable main" | tee -a /etc/apt/sources.list.d/grafana.list
 sudo  apt update -y
