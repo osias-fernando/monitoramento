@@ -44,7 +44,7 @@ services:
     hostname: grafana
     image: grafana/grafana:latest
     ports:
-      - 3031:3000
+      - 3000:3000
     volumes:
       - grafana-storage:/var/lib/grafana
     restart: unless-stopped
