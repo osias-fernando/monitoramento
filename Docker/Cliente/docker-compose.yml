@@ -62,13 +62,11 @@ services:
     image: prom/mysqld-exporter:latest
     container_name: db1_mysqld_exporter_hres
     environment:
-      - DATA_SOURCE_NAME=root:@(127.0.0.1:3306)/
+      - DATA_SOURCE_NAME=root:pgTNaOebSygokhmF1KBC@(172.18.0.5:3306)/
     ports:
       - "9104:9104"
-    labels:
-      - "mon.percona.container_type=collector"
     depends_on:
       - mysql
-      
+          
 volumes:
   portainer_data:
