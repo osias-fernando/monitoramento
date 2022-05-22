@@ -60,7 +60,7 @@ services:
 
   mysqld_exporter_high_res:
     image: prom/mysqld-exporter:latest
-    container_name: db1_mysqld_exporter_hres
+    container_name: mysqld_exporter
     environment:
       - DATA_SOURCE_NAME=root:pgTNaOebSygokhmF1KBC@(172.18.0.5:3306)/
     ports:
